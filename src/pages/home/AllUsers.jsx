@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './home.css'
 import axios from 'axios';
 
@@ -8,7 +8,7 @@ function AllUsers() {
     const [isLoading, setisLoading] = useState(true);
 
     const fetchuserData = async() =>{
-        axios.get('https://dummyjson.com/users')
+        await axios.get('https://dummyjson.com/users')
         .then((responce)=>{
             setisLoading(false);
             console.log(responce.data.users);
@@ -21,7 +21,9 @@ function AllUsers() {
         
         
     }
-    fetchuserData();
+    useEffect(()=>{
+        fetchuserData();
+    }, [])
   return (
     <section className="container-fluid bg-white">
        {
@@ -54,7 +56,7 @@ function AllUsers() {
                         <td>{item.email}</td>
                         <td>{item.phone}</td>
                         <td>{item.gender}</td>
-                        <td><a href="/" className='btn text-primary'>View Details</a></td>
+                        <td><a href={`/user/details/${item.id}`} className='btn text-primary'>View Details</a></td>
                     </tr>
                 ))
             }
